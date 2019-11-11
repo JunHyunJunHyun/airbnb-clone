@@ -195,7 +195,7 @@ Temporary Items
 # Pyre type checker
 
 ### VisualStudioCode ###
-.vscode/*
+.vscode
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -204,5 +204,8 @@ Temporary Items
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
+
+### Project File ###
+uploads
 
 # End of https://www.gitignore.io/api/osx,python,django,visualstudiocode
