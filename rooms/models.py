@@ -55,7 +55,7 @@ class Photo(core_models.AbstractTimeStamped):
     """ Photo Model Definition """
 
     caption = models.CharField(max_length=80)
-    file = models.ImageField()
+    file = models.ImageField(upload_to="room_photos")
 
     room = models.ForeignKey("Room", related_name="photos", on_delete=models.CASCADE)
 
