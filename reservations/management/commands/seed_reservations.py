@@ -1,5 +1,5 @@
 import random
-from datetime import timedelta, datetime
+from datetime import timedelta
 
 from django.core.management.base import BaseCommand
 from django.contrib.admin.utils import flatten
@@ -46,6 +46,4 @@ class Command(BaseCommand):
         )
 
         seeder.execute()
-        print(timezone.now().date())
-        print(datetime.now())
         self.stdout.write(self.style.SUCCESS(f"{number} {NAME} created!"))
