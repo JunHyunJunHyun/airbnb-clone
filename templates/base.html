@@ -9,10 +9,16 @@
 </head>
 
 <body>
-    {% include "partials/header.html" %}
-    {% block content %}
+    <header>
+        {% include "partials/nav.html" %}
+        {% block search-bar %}
+            <form method="get" action="{% url "rooms:search" %}">
+                <input name= "city" placeholder="Search by City"/>
+            </form>
+        {% endblock search-bar %}
+    </header>
     
-    {% endblock content %}
+    {% block content %}{% endblock content %}
     {% include "partials/footer.html" %}
 </body>
 
