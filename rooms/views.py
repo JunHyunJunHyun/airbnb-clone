@@ -69,4 +69,17 @@ def search(request):
         "house_rules": house_rules,
     }
 
-    return render(request, "rooms/search.html", {**form, **choices},)
+    filter_args = {}
+
+    if city != "Anywhere":
+        filter_args["city__startswith"] = city
+        # city가 자기 멋대로 바뀜 오류 수정 필요
+
+    filter_args["country"] = country
+
+    if room_type != 0:
+        filter_args["room_type__pk"] = room_type
+
+    rooms = models.Room.objects.filter(**filter_args)
+
+    return render(request, "rooms/search.html", {**form, **choices, "rooms": rooms,},)
