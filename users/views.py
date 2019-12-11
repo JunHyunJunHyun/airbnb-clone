@@ -129,7 +129,7 @@ def github_callback(request):
                             username=email,
                             bio=bio,
                             login_method=models.User.LOGIN_GITHUB,
-                            email_verified=True
+                            email_verified=True,
                         )
                         user.set_unusable_password()
                         user.save()
@@ -202,18 +202,19 @@ def kakao_callback(request):
                 username=email,
                 first_name=nickname,
                 login_method=models.User.LOGIN_KAKAO,
-                email_verified=True
+                email_verified=True,
             )
             user.set_unusable_password()
             user.save()
 
             if profile_image is not None:
                 photo_request = requests.get(profile_image)
-                user.avatar.save(f"{nickname}-avatar", ContentFile(photo_request.content)
+                user.avatar.save(
+                    f"{nickname}-avatar", ContentFile(photo_request.content)
+                )
 
         login(request, user)
 
         return redirect(reverse("core:home"))
-
     except KakaoException:
         return redirect(reverse("users:login"))
