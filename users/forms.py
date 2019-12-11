@@ -24,8 +24,4 @@ class LogInForm(forms.Form):
 
 
 class SignUpForm(UserCreationForm):
-    class Meta:
-        model = models.User
-        fields = ("email",)
-
-    email = forms.EmailField()
+    username = forms.EmailField(label="Email")
