@@ -207,8 +207,11 @@ Temporary Items
 
 ### Project File ###
 uploads
+node_modules
+
 
 # Environments
 .env
+
 
 # End of https://www.gitignore.io/api/osx,python,django,visualstudiocode
