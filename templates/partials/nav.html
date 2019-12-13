@@ -1,4 +1,6 @@
+{% load static %}
 <a href="{% url "core:home" %}">Airbnb</a>
+    <img class="w-8" src="{% static 'img/logo.png' %}"/>
 <ul>
     {% if user.is_authenticated %}
         <li><a href="{% url "users:logout" %}">LogOut</a></li>
