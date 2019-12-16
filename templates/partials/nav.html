@@ -1,11 +1,8 @@
-{% load static %}
-<a href="{% url "core:home" %}">Airbnb</a>
-    <img class="w-8" src="{% static 'img/logo.png' %}"/>
-<ul>
+<ul class="flex items-center text-sm font-medium">
     {% if user.is_authenticated %}
-        <li><a href="{% url "users:logout" %}">LogOut</a></li>
+        <li class="ml-8"><a href="{% url "users:logout" %}">LogOut</a></li class="ml-8">
     {% else %}
-        <li><a href="{% url "users:login" %}">LogIn</a></li>
-        <li><a href="{% url "users:signup" %}">SignUp</a></li>
+        <li class="ml-8"><a href="{% url "users:login" %}">LogIn</a></li>
+        <li class="ml-8"><a href="{% url "users:signup" %}">SignUp</a></li>
     {% endif %}        
 </ul>
