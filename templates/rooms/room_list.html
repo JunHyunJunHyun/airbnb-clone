@@ -5,6 +5,9 @@
 {% endblock page_title %}
 
 {% block content %}
+
+    <div class="container mx-auto rounded-xl bg-gray-800 h-50vh mt-32 mb-24 bg-center bg-cover" style="background-image: url(https://images.unsplash.com/photo-1534274867514-d5b47ef89ed7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format);"></div>
+
     {% for room in rooms %}
         <h3>
             <a href="{% url "rooms:detail" room.pk %}">
