@@ -107,7 +107,7 @@ class Room(core_models.AbstractTimeStamped):
         all_ratings = 0
 
         if len(all_reviews) == 0:
-            return "No Rating"
+            return "N/R"
         else:
             for review in all_reviews:
                 all_ratings += review.rating_average()
