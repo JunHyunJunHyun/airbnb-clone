@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.views import View
 from django.views.generic import FormView
 from django.core.files.base import ContentFile
+from django.contrib import messages
 
 from . import forms
 from . import models
@@ -94,7 +95,7 @@ def github_callback(request):
             error = token_json.get("error", None)
 
             if error is not None:
-                raise GithubException
+                raise GithubException("Can't get access token")
             else:
                 access_token = token_json.get("access_token")
                 profile_request = requests.get(
@@ -116,7 +117,7 @@ def github_callback(request):
                         user = models.User.objects.get(email=email)
 
                         if user.login_method != models.User.LOGIN_GITHUB:
-                            raise GithubException()
+                            raise GithubException(f"Please login with: {user.login_method}")
                     except models.User.DoesNotExist:
                         user = models.User.objects.create(
                             email=email,
@@ -130,14 +131,15 @@ def github_callback(request):
                         user.save()
 
                     login(request, user)
+                    messages.success(request, f"Weclome back {user.first_name}")
 
                     return redirect(reverse("core:home"))
                 else:
-                    raise GithubException
+                    raise GithubException("Can't get your profile")
         else:
-            # send error message
-            raise GithubException
-    except GithubException:
+            raise GithubException("Can't get code")
+    except GithubException as e:
+        messages.error(request, e)
         return redirect(reverse("users:login"))
 
 
@@ -167,7 +169,7 @@ def kakao_callback(request):
         error = token_json.get("error", None)
 
         if error is not None:
-            raise KakaoException()
+            raise KakaoException("Can't get authorization code.")
 
         access_token = token_json.get("access_token")
         profile_request = requests.get(
@@ -180,7 +182,7 @@ def kakao_callback(request):
         email = kaccount_json.get("email")
 
         if email is None:
-            raise KakaoException()
+            raise KakaoException("Please also give me your email")
 
         profile_detail_json = kaccount_json.get("profile")
         nickname = profile_detail_json.get("nickname")
@@ -190,7 +192,7 @@ def kakao_callback(request):
             user = models.User.objects.get(email=email)
 
             if user.login_method != models.User.LOGIN_KAKAO:
-                raise KakaoException()
+                raise KakaoException(f"Please Login with: {user.login_method}")
         except models.User.DoesNotExist:
             user = models.User.objects.create(
                 email=email,
@@ -209,7 +211,9 @@ def kakao_callback(request):
                 )
 
         login(request, user)
+        messages.success(request, f"Weclome back {user.first_name}")
 
         return redirect(reverse("core:home"))
-    except KakaoException:
+    except KakaoException as e:
+        messages.error(request, e)
         return redirect(reverse("users:login"))
