@@ -2,6 +2,7 @@ from django.views.generic import ListView, DetailView, View, UpdateView
 from django.shortcuts import render
 from django.core.paginator import Paginator
 
+from users import mixins as user_mixins
 from . import models, forms
 
 
@@ -108,7 +109,7 @@ class SearchView(View):
         return render(request, "rooms/search.html", {"form": form})
 
 
-class EditRoomView(UpdateView):
+class EditRoomView(user_mixins.LoggedInOnlyView, UpdateView):
     model = models.Room
     template_name = "rooms/room_edit.html"
     fields = {
@@ -130,3 +131,11 @@ class EditRoomView(UpdateView):
         "house_rules",
         "facilities",
     }
+
+    def get_object(self, queryset=None):
+        room = super().get_object(queryset=queryset)
+        print(room.host.pk, self.request.user.pk)
+        print(vars(self.request))
+
+        return room
+    # 3분 6초
